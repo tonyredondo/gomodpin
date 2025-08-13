@@ -1,0 +1,51 @@
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Coverage and profiling
+*.out
+*.cover
+*.cov
+coverage.*
+coverage/
+*.pprof
+
+# Build output directories
+bin/
+build/
+dist/
+out/
+
+# macOS
+.DS_Store
+
+# IDE/editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.*
+
+# direnv
+.direnv/
+
+# Backup created by gomodpin when modifying go.mod
+go.mod.old
+
+# Vendored dependencies (remove if you intentionally commit vendor)
+vendor/
+
+# Local binary built in repo root
+gomodpin
+
+
