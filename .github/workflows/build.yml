@@ -1,28 +1,56 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
 name: Build
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
-        go-version: '1.20'
+        go-version-file: go.mod
+        cache: true
 
-    - name: Build
-      run: go build -v ./...
+    - name: Show Go version
+      run: go version
+      shell: bash
+
+    - name: Build binary
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ "$RUNNER_OS" = "Windows" ]; then
+          go build -v -o gomodpin.exe .
+        else
+          go build -v -o gomodpin .
+        fi
 
     - name: Test
       run: go test -v ./...
+      shell: bash
+
+    - name: Capture architecture
+      shell: bash
+      run: echo "GOARCH=$(go env GOARCH)" >> "$GITHUB_ENV"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: gomodpin-${{ runner.os }}-${{ env.GOARCH }}
+        path: |
+          gomodpin*
+        if-no-files-found: error
+        retention-days: 7
