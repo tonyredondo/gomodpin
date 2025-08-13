@@ -158,19 +158,6 @@ mv go.mod.old go.mod
 
 - If you have committed, use your VCS to revert.
 
-Note: By default, `.gitignore` includes `go.mod.old`.
-
-## Recommended workflows
-
-- **One-time pin** before a release or after dependency churn:
-
-```bash
-gomodpin -v ./go.mod && git add go.mod && git commit -m "Pin dependencies with gomodpin"
-```
-
-- **CI guardrail** to detect unexpected changes:
-  - Run `gomodpin` and then `git diff --exit-code go.mod` to fail the build if pinning would change the file.
-
 ## Troubleshooting
 
 - **provided path is a directory; expected path to a go.mod file**
