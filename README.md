@@ -17,6 +17,14 @@ This makes dependency resolution explicit and reproducible: accidental upgrades 
 
 Prerequisites: Go 1.23+ (the module `go` directive is `1.23.2`).
 
+### Install directly from GitHub
+
+```bash
+go install github.com/tonyredondo/gomodpin@latest
+```
+
+This installs the `gomodpin` binary into `$GOBIN` (or `$GOPATH/bin`) so it’s available on your `PATH`.
+
 From the project root:
 
 ```bash
